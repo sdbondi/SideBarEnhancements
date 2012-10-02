@@ -1104,10 +1104,7 @@ class SideBarTerminalCommand(sublime_plugin.WindowCommand):
 			if sublime.platform() == 'osx':
 				subprocess.Popen(['/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal', '.'], cwd=item.pathSystem())
 			elif sublime.platform() == 'windows':
-				try:
-					subprocess.Popen(['powershell', '.'], cwd=item.pathSystem(), shell=True)
-				except:
-					subprocess.Popen(['cmd', '.'], cwd=item.pathSystem(), shell=True)
+				subprocess.Popen(['start cmd', '.'], cwd=item.pathSystem(), shell=True)
 			elif sublime.platform() == 'linux':
 				subprocess.Popen(['gnome-terminal', '.'], cwd=item.pathSystem())
 
