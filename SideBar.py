@@ -1097,6 +1097,23 @@ class SideBarRevealCommand(sublime_plugin.WindowCommand):
 	def is_enabled(self, paths = []):
 		return SideBarSelection(paths).len() > 0
 
+class SideBarTerminalCommand(sublime_plugin.WindowCommand):
+	def run(self, paths = []):
+		import subprocess
+		for item in SideBarSelection(paths).getSelectedDirectoriesOrDirnames():
+			if sublime.platform() == 'osx':
+				subprocess.Popen(['/Applications/Utilities/Terminal.app/Contents/MacOS/Terminal', '.'], cwd=item.pathSystem())
+			elif sublime.platform() == 'windows':
+				try:
+					subprocess.Popen(['powershell', '.'], cwd=item.pathSystem(), shell=True)
+				except:
+					subprocess.Popen(['cmd', '.'], cwd=item.pathSystem(), shell=True)
+			elif sublime.platform() == 'linux':
+				subprocess.Popen(['gnome-terminal', '.'], cwd=item.pathSystem())
+
+	def is_enabled(self, paths = []):
+		return SideBarSelection(paths).len() > 0
+
 class SideBarProjectOpenFileCommand(sublime_plugin.WindowCommand):
 	def run(self, paths = []):
 		project = SideBarProject()
